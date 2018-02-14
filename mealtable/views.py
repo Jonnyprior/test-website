@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from . import models
 
-def index(request):
-	return HttpResponse("YO, table page, not sure why its a page")
+
+def meal_table(request):
+	return render(request, "mealtable/fooditem.html", {})
