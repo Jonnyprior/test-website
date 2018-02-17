@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls import url
+#from tutorial.views import fooditem
 
 urlpatterns = [
-	path('meal_table/', include('mealtable.urls')),
+	path('', include('mealtable.urls')),
     path('admin/', admin.site.urls),
+    path('fooditem/', include('tutorial.urls')),
 ]
