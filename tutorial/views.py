@@ -8,7 +8,9 @@ from .tables import FoodItemsTable
 def fooditem(request):
 	table = FoodItemsTable(FoodItems.objects.all())
 	RequestConfig(request).configure(table)
-	return render(request, 'tutorial/fooditem.html', {'table': table})
+	obj_list = FoodItems.objects.all()
+	args = {'table': table, 'food_list': obj_list}
+	return render(request, 'tutorial/fooditem.html', args)
 
 	#http://django-datatable-view.appspot.com/x-editable-columns/
 	#https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms

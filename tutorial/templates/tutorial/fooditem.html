@@ -10,5 +10,52 @@
 	</head>
 	{% block content %}
 	{% render_table table %}
+	<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Lunch Meal</h4>
+    <h6 class="card-subtitle mb-2 text-muted">Pick food out of drop down</h6>
+
+		<table>
+			<tr>
+				<th>Food Item</th>
+				<th>Serving</th>
+				<th>Calories</th>
+				<th>Fat</th>
+				<th>Carbs</th>
+				<th>Protein</th>
+			</tr>
+		<!--<select>-->
+		{% for item in food_list %}
+
+			<tr>
+				<th>{{ item.name }}</th>
+				<th>{{ item.serving }}</th>
+				<th>{{ item.calories }}</th>
+				<th>{{ item.fat }}</th>
+				<th>{{ item.carbs }}</th>
+				<th>{{ item.protein }}</th>
+			</tr>
+		{% endfor %}
+		</table>
+
+		<div class="form-group">
+			<label for="example">Food list example</label>
+			<select class="form-control" id="example">
+				{% for item in food_list %}
+					<option>{{ item.name }}, {{ item.serving }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div>
+			<!--{% for item in food_list %}
+
+			{% endfor %} -->
+		</div>
+
+
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
 	{% endblock %}
 </html>

@@ -8,6 +8,6 @@ class FoodItems(models.Model):
 	fat = models.FloatField(default=0, verbose_name="Fat")
 	carbs = models.FloatField(default=0, verbose_name="Carbs")
 	protein = models.FloatField(default=0, verbose_name="Protein")
-	
+
 	def __str__(self):
 		return self.name
