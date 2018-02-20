@@ -11,3 +11,6 @@ class FoodItems(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_list_of_fields(self):
+		return [self.name, self.serving, self.calories, self.fat, self.carbs, self.protein]
