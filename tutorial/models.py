@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class FoodItems(models.Model):
@@ -12,5 +13,6 @@ class FoodItems(models.Model):
 	def __str__(self):
 		return self.name
 
-	def get_list_of_fields(self):
-		return [self.name, self.serving, self.calories, self.fat, self.carbs, self.protein]
+	# Returns to main page once POST has been successful
+	def get_absolute_url(self):
+		return reverse('fooditem')

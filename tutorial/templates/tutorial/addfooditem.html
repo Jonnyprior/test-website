@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+<!doctype html>
+<html>
+{% block content %}
+<head>
+  {% block title %}
+  <title>Create Food Item</title>
+  {% endblock %}
+</head>
+<br>
+<br>
+<div class="container">
+  <div>
+    <h1 class="display-3">Add New Food Item</h1>
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+    </form>
+  </div>
+</div>
+{% endblock %}
+</html>

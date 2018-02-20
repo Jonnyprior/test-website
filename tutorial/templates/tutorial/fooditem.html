@@ -8,7 +8,39 @@
 		<title>List of food items</title>
 		{% endblock %}
 	</head>
+
 	{% block content %}
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="jumbotron">
+		<div class="container">
+			<h1 class="display-3">Meal Template Test</h1>
+			<p>Trying to use bootstrap to get a default template to use across the website :)</p>
+			<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+		</div>
+	</div>
+
+	<div class="container">
+		<!-- Example row of columns -->
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Step One</h2>
+				<p>The boring stuff. Start to fill in the table below with your food items. Don't forget your macros!.</p>
+				<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+			</div>
+			<div class="col-md-4">
+				<h2>Step Two</h2>
+				<p>For each day - Add a module to the day and use the drop down to add a food item from the previous table.</p>
+				<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+			</div>
+			<div class="col-md-4">
+				<h2>Step Three</h2>
+				<p>Check out the awesome graphs to see if you are within you can match your macros.</p>
+				<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+			</div>
+		</div>
+
+		<hr>
+
 	{% render_table table %}
 	<div class="card">
   <div class="card-body">
@@ -57,5 +89,6 @@
     <a href="#" class="card-link">Another link</a>
   </div>
 </div>
+</div> <!-- /container -->
 	{% endblock %}
 </html>
