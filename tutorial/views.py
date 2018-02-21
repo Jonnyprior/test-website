@@ -22,6 +22,12 @@ def fooditem(request):
 	# Use form to add new food items
 	# Find way to dynamically get food item and display in new list
 
+	# https://stackoverflow.com/questions/42820728/filter-a-drop-down-django-form-element-based-on-a-value-selected-before
+
+	# Possible table: https://djangopackages.org/packages/p/django-jinja-knockout/
+	# Maybe more suitable: https://github.com/pivotal-energy-solutions/django-datatable-view
+
+# Creates a generic view to submit new food items to website
 class AddFoodItemView(CreateView):
 	model = FoodItems
 	fields = ['name', 'serving', 'calories', 'fat', 'carbs', 'protein']
