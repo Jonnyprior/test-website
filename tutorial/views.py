@@ -1,8 +1,16 @@
 from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .models import FoodItems
+from .models import MealBlock
 from .tables import FoodItemsTable
 from django.views.generic import CreateView
+
+#from django_datatables_view import XEditableDatatableView
+import datatableview
+#from datatableview import Datatable, ValuesDatatable, columns, SkipRecord
+from datatableview.views import DatatableView, XEditableDatatableView
+from datatableview import helpers
+
 #from .forms import AddFoodItemForm
 
 
@@ -32,3 +40,24 @@ class AddFoodItemView(CreateView):
 	model = FoodItems
 	fields = ['name', 'serving', 'calories', 'fat', 'carbs', 'protein']
 	template_name = 'tutorial/addfooditem.html'
+
+class AddMealView(CreateView):
+	model = MealBlock
+	fields = ['meal_name', 'name', 'serving', 'calories', 'fat', 'carbs', 'protein']
+	template_name = 'tutorial/addfooditem.html'
+	# Add custom template - use view to name meal then drop down for selecting an already created food?
+
+class editabletable(XEditableDatatableView):
+    model = FoodItems
+    template_name = 'tutorial/customtable.html'
+    datatable_options = {
+        'columns': [
+			("Name", 'name', helpers.make_xeditable),
+            ("Serving", 'serving', helpers.make_xeditable),
+            ("Calories", 'calories', helpers.make_xeditable),
+            ("Fat", 'fat', helpers.make_xeditable),
+        ],
+    }
+
+class ZeroConfigTable(DatatableView):
+	model = FoodItems

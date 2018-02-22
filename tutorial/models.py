@@ -16,3 +16,13 @@ class FoodItems(models.Model):
 	# Returns to main page once POST has been successful
 	def get_absolute_url(self):
 		return reverse('fooditem')
+
+class MealBlock(FoodItems):
+	meal_name = models.CharField(max_length=100, default='MealBlock', verbose_name="Meal Name")
+	fooditems = models.ManyToManyField(FoodItems, related_name='+')
+
+	def __str__(self):
+		return self.meal_name
+
+	def get_absolute_url(self):
+		return reverse('fooditem')

@@ -1,0 +1,45 @@
+
+
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="{% static "datatable/js/datatableview.min.js" %}"></script>
+    <script>
+        datatableview.auto_initialize = false;
+        $(function () {
+            var xeditable_options = {};
+            datatableview.initialize($('.datatable'), {
+                fnRowCallback: datatableview.make_xeditable(xeditable_options),
+            });
+        })
+    </script>
+  </head>
+
+
+{% block content %}
+<br>
+<br>
+<h1>Check</h1>
+{{ form.as_table }}
+    {% if instances %}
+        <table class='datatable'>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Country</th>
+            </tr>
+            {% for row in instances %}
+                <tr>
+                  <th> {{ row.name }}</th>
+                  <th> {{ row.Serving }}</th>
+                  <th> {{ row.carbs }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No data available</p>
+    {% endif %}
+{% endblock %}
