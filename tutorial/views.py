@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .models import FoodItems
 from .models import MealBlock
+from .models import MealBlockForm
 from .tables import FoodItemsTable
 from django.views.generic import CreateView
 
@@ -35,6 +36,20 @@ def fooditem(request):
 	# Possible table: https://djangopackages.org/packages/p/django-jinja-knockout/
 	# Maybe more suitable: https://github.com/pivotal-energy-solutions/django-datatable-view
 
+
+def AddMealViewWithModelForm(request):
+	if request.method == 'POST':
+		form  = MealBlockForm(request.POST)
+
+		if form.is_valid():
+			# Do something here
+			return HttpResponseRedirect('/fooditem')
+
+	else:
+		form = MealBlockForm()
+
+	return render(request, 'tutorial/addfooditem.html', {'form': form})
+
 # Creates a generic view to submit new food items to website
 class AddFoodItemView(CreateView):
 	model = FoodItems
@@ -46,6 +61,7 @@ class AddMealView(CreateView):
 	fields = ['meal_name', 'name', 'serving', 'calories', 'fat', 'carbs', 'protein']
 	template_name = 'tutorial/addfooditem.html'
 	# Add custom template - use view to name meal then drop down for selecting an already created food?
+
 
 class editabletable(XEditableDatatableView):
     model = FoodItems

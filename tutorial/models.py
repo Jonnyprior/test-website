@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.forms import ModelForm
 
 # Create your models here.
 class FoodItems(models.Model):
@@ -26,3 +27,10 @@ class MealBlock(FoodItems):
 
 	def get_absolute_url(self):
 		return reverse('fooditem')
+
+class MealBlockForm(ModelForm):
+	class Meta:
+		model = MealBlock
+		#meal_name = models.CharField(max_length=100, default='MealBlock', verbose_name="Meal Name")
+		#fooditems = models.ManyToManyField(FoodItems, related_name='+')
+		fields = ['meal_name', 'fooditems']
