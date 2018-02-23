@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+<!doctype html>
+<html>
+{% block content %}
+<head>
+  {% block title %}
+  <title>Meal Block and Food Item</title>
+  {% endblock %}
+</head>
+<br>
+<br>
+<div class="container">
+  <div>
+    <h1 class="display-3">Add Food Item to Meal</h1>
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+      {{ form.meal_name.errors}}
+      <label for="{{ form.meal_name.id_for_label }}">Meal Name:</label>
+      {{ form.meal_name }}
+    </div>
+    <div class="fieldWrapper">
+      {{ form.fooditems.errors }}
+      <label for="{{ form.fooditems.id_for_label }}">Food Items:</label>
+      <div class="vertical-menu">
+          <!-- {% for item in form.fooditem %}
+          <a href="#">{{ item.name }}</a>
+          {% endfor %} -->
+          <a href="#">{{ form.fooditems }}</a>
+        </div>
+      </div>
+      <!--{{ form.fooditems }} -->
+    </div>
+    <input type="submit" value="Save" />
+    </form>
+  </div>
+</div>
+{% endblock %}
+</html>

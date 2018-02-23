@@ -48,7 +48,7 @@ def AddMealViewWithModelForm(request):
 	else:
 		form = MealBlockForm()
 
-	return render(request, 'tutorial/addfooditem.html', {'form': form})
+	return render(request, 'tutorial/addmealandfooditem.html', {'form': form})
 
 # Creates a generic view to submit new food items to website
 class AddFoodItemView(CreateView):

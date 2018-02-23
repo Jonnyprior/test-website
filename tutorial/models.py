@@ -18,15 +18,14 @@ class FoodItems(models.Model):
 	def get_absolute_url(self):
 		return reverse('fooditem')
 
-class MealBlock(FoodItems):
+class MealBlock(models.Model):
 	meal_name = models.CharField(max_length=100, default='MealBlock', verbose_name="Meal Name")
-	fooditems = models.ManyToManyField(FoodItems, related_name='+')
+	fooditems = models.ManyToManyField(FoodItems)
 
 	def __str__(self):
 		return self.meal_name
 
-	def get_absolute_url(self):
-		return reverse('fooditem')
+
 
 class MealBlockForm(ModelForm):
 	class Meta:
