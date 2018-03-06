@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Meal Block List</h1>
+
+  {% if mealandfood %}
+  <ul>
+
+    {% for item in mealandfood %}
+    <h1>{{ item.meal_name }}</h1>
+    <table>
+			<tr>
+				<th>Food Item</th>
+				<th>Serving</th>
+				<th>Calories</th>
+				<th>Fat</th>
+				<th>Carbs</th>
+				<th>Protein</th>
+			</tr>
+      {% for i in item.food_item.all %}
+			<tr>
+				<td>{{ i.name }}</td>
+				<td>{{ i.serving }}</td>
+				<td>{{ i.calories }}</td>
+				<td>{{ i.fat }}</td>
+				<td>{{ i.carbs }}</td>
+				<td>{{ i.protein }}</td>
+			</tr>
+      {% endfor %}
+    </table>
+    {% endfor %}
+    </ul>
+
+
+  {% else %}
+    <h2>There are no Meal plans available - Add food items to a meal</p>
+  {% endif %}
+{% endblock %}

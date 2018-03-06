@@ -2,9 +2,8 @@ from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .models import FoodItems
 from .models import MealBlock
-from .models import MealBlockForm
 from .tables import FoodItemsTable
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 #from django_datatables_view import XEditableDatatableView
 import datatableview
@@ -39,16 +38,29 @@ def fooditem(request):
 
 def AddMealViewWithModelForm(request):
 	if request.method == 'POST':
-		form  = MealBlockForm(request.POST)
+		form = MealBlock(request.POST)
 
 		if form.is_valid():
-			# Do something here
+			#form.meal_name
 			return HttpResponseRedirect('/fooditem')
 
 	else:
-		form = MealBlockForm()
+		form = MealBlock()
 
 	return render(request, 'tutorial/addmealandfooditem.html', {'form': form})
+
+def DisplayMeal(request):
+	meals = MealBlock.objects.all()
+	mealandfooditem = {}
+	for item in meals:
+		mealandfooditem[item] = item.food_item.all()
+
+	return render(
+		request,
+		'tutorial/display_meal.html',
+		context={'mealandfood': mealandfooditem},
+	)
+
 
 # Creates a generic view to submit new food items to website
 class AddFoodItemView(CreateView):
@@ -58,7 +70,7 @@ class AddFoodItemView(CreateView):
 
 class AddMealView(CreateView):
 	model = MealBlock
-	fields = ['meal_name', 'name', 'serving', 'calories', 'fat', 'carbs', 'protein']
+	fields = ['meal_name', 'fooditems']
 	template_name = 'tutorial/addfooditem.html'
 	# Add custom template - use view to name meal then drop down for selecting an already created food?
 

@@ -8,6 +8,7 @@ urlpatterns = [
 	path('addfooditem/', views.AddFoodItemView.as_view(), name='AddFoodItemView'),
 	path('addmeal', views.AddMealView.as_view(), name='AddMeal'),
 	path('addmealnew', views.AddMealViewWithModelForm, name='AddMealViewWithModelForm'),
+	path('display_meal', views.DisplayMeal, name="DisplayMeal"),
 	path('editabletable/', views.editabletable.as_view(), name='editabletable'),
 	path('zero/', views.ZeroConfigTable.as_view(), name='zeroconfig'),
 ]

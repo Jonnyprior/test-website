@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.forms import ModelForm
 
 # Create your models here.
+
 class FoodItems(models.Model):
 	name = models.CharField(max_length=100, verbose_name='Food Item')
 	serving = models.CharField(max_length=100, default='', verbose_name="Serving")
@@ -18,18 +19,10 @@ class FoodItems(models.Model):
 	def get_absolute_url(self):
 		return reverse('fooditem')
 
+
 class MealBlock(models.Model):
-	meal_name = models.CharField(max_length=100, default='MealBlock', verbose_name="Meal Name")
-	fooditems = models.ManyToManyField(FoodItems)
+	meal_name = models.CharField(max_length=100, default="My Meal", verbose_name="Meal Name")
+	food_item = models.ManyToManyField(FoodItems)
 
 	def __str__(self):
 		return self.meal_name
-
-
-
-class MealBlockForm(ModelForm):
-	class Meta:
-		model = MealBlock
-		#meal_name = models.CharField(max_length=100, default='MealBlock', verbose_name="Meal Name")
-		#fooditems = models.ManyToManyField(FoodItems, related_name='+')
-		fields = ['meal_name', 'fooditems']
