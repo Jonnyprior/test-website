@@ -26,3 +26,10 @@ class MealBlock(models.Model):
 
 	def __str__(self):
 		return self.meal_name
+
+	def get_absolute_url(self):
+		return reverse('fooditem')
+
+	@property
+	def sum_meal_values(self):
+		return Sum()

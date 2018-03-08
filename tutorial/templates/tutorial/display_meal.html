@@ -8,8 +8,8 @@
 
     {% for item in mealandfood %}
     <h1>{{ item.meal_name }}</h1>
-    <table>
-			<tr>
+    <table bgcolor="#b3d9ff">
+			<tr bgcolor="#3399ff">
 				<th>Food Item</th>
 				<th>Serving</th>
 				<th>Calories</th>
@@ -27,12 +27,27 @@
 				<td>{{ i.protein }}</td>
 			</tr>
       {% endfor %}
+
+      {% for x in alldata %}
+      {% if item.meal_name == x.meal_name %}
+      <tr bgcolor="#80bfff">
+				<td><strong>Total:</strong></td>
+				<td></td>
+				<td>{{ x.calories}}</td>
+				<td>{{ x.fat }}</td>
+				<td>{{ x.carbs }}</td>
+				<td>{{ x.protein }}</td>
+			</tr>
+      {% endif %}
+      {% endfor %}
     </table>
     {% endfor %}
     </ul>
 
+    {{ alldata }}
+
 
   {% else %}
-    <h2>There are no Meal plans available - Add food items to a meal</p>
+    <h2>There are no Meal plans available - Add food items to a meal</h2>
   {% endif %}
 {% endblock %}
