@@ -4,6 +4,7 @@ from .models import FoodItems
 from .models import MealBlock
 from .tables import FoodItemsTable
 from django.views.generic import CreateView, DetailView
+from django.db.models import Sum
 
 #from django_datatables_view import XEditableDatatableView
 import datatableview
@@ -50,15 +51,20 @@ def AddMealViewWithModelForm(request):
 	return render(request, 'tutorial/addmealandfooditem.html', {'form': form})
 
 def DisplayMeal(request):
-	meals = MealBlock.objects.all()
-	mealandfooditem = {}
-	for item in meals:
-		mealandfooditem[item] = item.food_item.all()
+	mealandfooditem = MealBlock.objects.all()
+	#mealandfooditem = {}
+	#for item in meals:
+	#	mealandfooditem[item] = item.food_item.all()
+	alldata = {}
+	alldata = MealBlock.objects.values('meal_name').annotate(calories=Sum('food_item__calories'), fat=Sum('food_item__fat'), carbs=Sum('food_item__carbs'), protein=Sum('food_item__protein'))
+
+	# Look into displaying each meal (via pk)
+#	https://djangobook.com/advanced-models/
 
 	return render(
 		request,
 		'tutorial/display_meal.html',
-		context={'mealandfood': mealandfooditem},
+		context={'mealandfood': mealandfooditem, 'alldata': alldata},
 	)
 
 
@@ -70,7 +76,7 @@ class AddFoodItemView(CreateView):
 
 class AddMealView(CreateView):
 	model = MealBlock
-	fields = ['meal_name', 'fooditems']
+	fields = ['meal_name', 'food_item']
 	template_name = 'tutorial/addfooditem.html'
 	# Add custom template - use view to name meal then drop down for selecting an already created food?
 
