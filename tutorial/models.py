@@ -25,6 +25,7 @@ class FoodItems(models.Model):
 class MealBlock(models.Model):
 	meal_name = models.CharField(max_length=100, default="My Meal", verbose_name="Meal Name")
 	food_item = models.ManyToManyField(FoodItems)
+	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
 	def __str__(self):
 		return self.meal_name

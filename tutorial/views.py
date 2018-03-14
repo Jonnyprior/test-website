@@ -13,7 +13,7 @@ import datatableview
 #from datatableview import Datatable, ValuesDatatable, columns, SkipRecord
 from datatableview.views import DatatableView, XEditableDatatableView
 from datatableview import helpers
-from .forms import AddFoodItemForm
+from .forms import AddFoodItemForm, AddMealByUserForm
 
 #from .forms import AddFoodItemForm
 
@@ -57,6 +57,8 @@ def AddFoodItemByUser(request):
 			instance = form.save(commit=False)
 			instance.user = request.user
 			instance.save()
+			#name = form.cleaned_data['name']
+			#serving = form.cleaned_data['serving']
 
 			return HttpResponseRedirect(instance.get_absolute_url())
 	else:
@@ -64,18 +66,23 @@ def AddFoodItemByUser(request):
 
 	return render(request, 'tutorial/addfooditem.html', {'form': form})
 
-def AddMealViewWithModelForm(request):
+@login_required
+def AddMealByUser(request):
 	if request.method == 'POST':
-		form = MealBlock(request.POST)
-
+		form = AddMealByUserForm(request.POST)
 		if form.is_valid():
-			#form.meal_name
-			return HttpResponseRedirect('/fooditem')
+			instance = form.save(commit=False)
+			instance.user = request.user
+			instance.save()
+			# Currently does nothing with data - No Fooditems are saved
 
+			return HttpResponseRedirect(instance.get_absolute_url())
 	else:
-		form = MealBlock()
+		form = AddMealByUserForm()
 
-	return render(request, 'tutorial/addmealandfooditem.html', {'form': form})
+	return render(request, 'tutorial/addfooditem.html', {'form': form})
+
+
 
 def DisplayMeal(request):
 	mealandfooditem = MealBlock.objects.all()
