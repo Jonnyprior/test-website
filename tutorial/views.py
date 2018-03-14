@@ -6,12 +6,14 @@ from .tables import FoodItemsTable
 from django.views.generic import CreateView, DetailView, ListView
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 #from django_datatables_view import XEditableDatatableView
 import datatableview
 #from datatableview import Datatable, ValuesDatatable, columns, SkipRecord
 from datatableview.views import DatatableView, XEditableDatatableView
 from datatableview import helpers
+from .forms import AddFoodItemForm
 
 #from .forms import AddFoodItemForm
 
@@ -47,6 +49,20 @@ def FoodItemsByUser(request):
 		context={'userinfo': userinfo},
 	)
 
+@login_required
+def AddFoodItemByUser(request):
+	if request.method == 'POST':
+		form = AddFoodItemForm(request.POST)
+		if form.is_valid():
+			instance = form.save(commit=False)
+			instance.user = request.user
+			instance.save()
+
+			return HttpResponseRedirect(instance.get_absolute_url())
+	else:
+		form = AddFoodItemForm()
+
+	return render(request, 'tutorial/addfooditem.html', {'form': form})
 
 def AddMealViewWithModelForm(request):
 	if request.method == 'POST':

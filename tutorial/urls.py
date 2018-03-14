@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
 	path('', views.fooditem, name='fooditem'),
 	path('addfooditem/', views.AddFoodItemView.as_view(), name='AddFoodItemView'),
+	path('add_food_items', views.AddFoodItemByUser, name='AddFoodItemByUser'),
 	path('addmeal', views.AddMealView.as_view(), name='AddMeal'),
 	path('addmealnew', views.AddMealViewWithModelForm, name='AddMealViewWithModelForm'),
 	path('display_meal', views.DisplayMeal, name="DisplayMeal"),
