@@ -3,8 +3,9 @@ from django_tables2 import RequestConfig
 from .models import FoodItems
 from .models import MealBlock
 from .tables import FoodItemsTable
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 
 #from django_datatables_view import XEditableDatatableView
 import datatableview
@@ -36,6 +37,16 @@ def fooditem(request):
 	# Possible table: https://djangopackages.org/packages/p/django-jinja-knockout/
 	# Maybe more suitable: https://github.com/pivotal-energy-solutions/django-datatable-view
 
+@login_required
+def FoodItemsByUser(request):
+	userinfo = FoodItems.objects.filter(user=request.user)
+
+	return render(
+		request,
+		'tutorial/fooditem_list_by_user.html',
+		context={'userinfo': userinfo},
+	)
+
 
 def AddMealViewWithModelForm(request):
 	if request.method == 'POST':
@@ -52,14 +63,18 @@ def AddMealViewWithModelForm(request):
 
 def DisplayMeal(request):
 	mealandfooditem = MealBlock.objects.all()
-	#mealandfooditem = {}
-	#for item in meals:
-	#	mealandfooditem[item] = item.food_item.all()
+
 	alldata = {}
 	alldata = MealBlock.objects.values('meal_name').annotate(calories=Sum('food_item__calories'), fat=Sum('food_item__fat'), carbs=Sum('food_item__carbs'), protein=Sum('food_item__protein'))
 
 	# Look into displaying each meal (via pk)
 #	https://djangobook.com/advanced-models/
+
+	#https://docs.djangoproject.com/en/2.0/topics/auth/customizing/
+	#https://docs.djangoproject.com/en/2.0/topics/http/sessions/
+
+	#https://github.com/danfairs/django-lazysignup
+	#https://github.com/bugov/django-custom-anonymous
 
 	return render(
 		request,

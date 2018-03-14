@@ -22,4 +22,5 @@ urlpatterns = [
 	path('', include('mealtable.urls')),
     path('admin/', admin.site.urls),
     path('fooditem/', include('tutorial.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

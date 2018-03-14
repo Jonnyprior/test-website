@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.forms import ModelForm
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -11,6 +12,7 @@ class FoodItems(models.Model):
 	fat = models.FloatField(default=0, verbose_name="Fat")
 	carbs = models.FloatField(default=0, verbose_name="Carbs")
 	protein = models.FloatField(default=0, verbose_name="Protein")
+	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
 	def __str__(self):
 		return self.name
@@ -29,7 +31,3 @@ class MealBlock(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('fooditem')
-
-	@property
-	def sum_meal_values(self):
-		return Sum()

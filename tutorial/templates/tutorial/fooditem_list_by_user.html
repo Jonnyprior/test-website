@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Meal Block List</h1>
+  {{ userinfo }}
+  {% if userinfo %}
+  <ul>
+    <table bgcolor="#b3d9ff">
+			<tr bgcolor="#3399ff">
+				<th>Food Item</th>
+				<th>Serving</th>
+				<th>Calories</th>
+				<th>Fat</th>
+				<th>Carbs</th>
+				<th>Protein</th>
+			</tr>
+      {% for item in userinfo %}
+			<tr>
+				<td>{{ item.name }}</td>
+				<td>{{ item.serving }}</td>
+				<td>{{ item.calories }}</td>
+				<td>{{ item.fat }}</td>
+				<td>{{ item.carbs }}</td>
+				<td>{{ item.protein }}</td>
+			</tr>
+    {% endfor %}
+    </table>
+
+    </ul>
+
+  {% else %}
+    <h2>There are no fooditems available - Add food items here</h2>
+  {% endif %}
+{% endblock %}
