@@ -82,16 +82,18 @@ def AddFoodItemByUser(request):
 @login_required
 def AddMealByUser(request):
 	if request.method == 'POST':
-		form = AddMealByUserForm(request.POST)
+		form = AddMealByUserForm(request.user, request.POST)
 		if form.is_valid():
 			instance = form.save(commit=False)
 			instance.user = request.user
 			instance.save()
+			form.save_m2m()
+			#https://docs.djangoproject.com/en/2.0/topics/forms/modelforms/
 			# Currently does nothing with data - No Fooditems are saved
 
 			return HttpResponseRedirect(instance.get_absolute_url())
 	else:
-		form = AddMealByUserForm()
+		form = AddMealByUserForm(request.user)
 
 	return render(request, 'tutorial/addfooditem.html', {'form': form})
 
