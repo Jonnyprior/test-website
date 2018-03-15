@@ -50,6 +50,19 @@ def FoodItemsByUser(request):
 	)
 
 @login_required
+def ViewMealByUser(request):
+	userMealObjects = MealBlock.objects.filter(user=request.user)
+	userMealData = userMealObjects.values('meal_name').annotate(calories=Sum('food_item__calories'), fat=Sum('food_item__fat'), carbs=Sum('food_item__carbs'), protein=Sum('food_item__protein'))
+
+	return render(
+		request,
+		'tutorial/view_meal_by_user.html',
+		context={'userMealObjects': userMealObjects,'userMealData': userMealData},
+	)
+
+
+
+@login_required
 def AddFoodItemByUser(request):
 	if request.method == 'POST':
 		form = AddFoodItemForm(request.POST)

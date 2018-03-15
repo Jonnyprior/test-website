@@ -41,9 +41,6 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'DisplayMeal' %}">Display Meals</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
 
           {% if user.is_authenticated %}
           <li class="nav-item">
@@ -67,11 +64,26 @@
       </div>
     </nav>
 
-    <main role="main">
+    {% block sidebar %}
+    <!-- Side navigation -->
+    <div class="sidenav">
+      <br>
+      <br>
+      <br>
+      <ul>
+        <li>
+          <a href="{% url 'FoodItemsByUser' %}">View User FoodItems</a>
+        </li>
+        <li>
+          <a href="{% url 'ViewMealByUser' %}">View User Meal</a>
+        </li>
+    </ul>
+    </div>
+    {% endblock %}
 
-        {% block content %}
-        {% endblock %}
-
+    {% block content %}
+    {% endblock %}
+    </div>
     </main>
     <br>
 <!-- Style sheet not getting used? Maybe cus bootstrap overwrites? -->
