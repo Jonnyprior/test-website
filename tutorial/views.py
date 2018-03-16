@@ -20,6 +20,18 @@ from .forms import AddFoodItemForm, AddMealByUserForm
 
 # Create your views here.
 
+# TODO:
+	# Allow fooditems to be edited, deleted
+	# Allow meals to be edited, and deleted
+	# Dynamically add fooditem meal total during meal block creation/editing
+	# Create way of listing meals against a certain day - how best to display this?
+	# Add 'module' to indicate workout time
+	# Allow anonymous users the ability to act like normal user and POST
+
+	# Extra: Pull nutrional data live from Google when adding
+	# Extra: Add more columns, salt, sugar etc.
+	# Extra: Graph food against energy levels (when best to workout)
+
 def fooditem(request):
 	table = FoodItemsTable(FoodItems.objects.all())
 	RequestConfig(request).configure(table)
@@ -87,9 +99,7 @@ def AddMealByUser(request):
 			instance = form.save(commit=False)
 			instance.user = request.user
 			instance.save()
-			form.save_m2m()
-			#https://docs.djangoproject.com/en/2.0/topics/forms/modelforms/
-			# Currently does nothing with data - No Fooditems are saved
+			form.save_m2m() # Saves relationship field too
 
 			return HttpResponseRedirect(instance.get_absolute_url())
 	else:
