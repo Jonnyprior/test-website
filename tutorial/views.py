@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django_tables2 import RequestConfig
 from .models import FoodItems
 from .models import MealBlock
@@ -9,10 +9,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
 #from django_datatables_view import XEditableDatatableView
-import datatableview
+#import datatableview
 #from datatableview import Datatable, ValuesDatatable, columns, SkipRecord
-from datatableview.views import DatatableView, XEditableDatatableView
-from datatableview import helpers
+#from datatableview.views import DatatableView, XEditableDatatableView
+#from datatableview import helpers
 from .forms import AddFoodItemForm, AddMealByUserForm
 
 #from .forms import AddFoodItemForm
@@ -73,7 +73,6 @@ def ViewMealByUser(request):
 	)
 
 
-
 @login_required
 def AddFoodItemByUser(request):
 	if request.method == 'POST':
@@ -90,6 +89,29 @@ def AddFoodItemByUser(request):
 		form = AddFoodItemForm()
 
 	return render(request, 'tutorial/addfooditem.html', {'form': form})
+
+
+@login_required
+def EditFoodItemByUser(request, pk):
+	"""
+	View function to edit specific fooditem by users
+	"""
+	user_food_item=get_object_or_404(FoodItems, pk=pk)
+	form = AddFoodItemForm(request.POST or None, instance=user_food_item)
+	# Forces only linked user to edit page (not very elegant)
+	if not user_food_item.user == request.user:
+		raise ValueError("You do not have permission to edit this - Incorrect user")
+
+	if request.method == 'POST' and form.is_valid():
+		user_food_item.save()
+		return HttpResponseRedirect(user_food_item.get_absolute_url())
+
+	else:
+		# Populates with current values
+		form = AddFoodItemForm(instance=user_food_item)
+
+	return render(request, 'tutorial/addfooditem.html', {'form': form})
+
 
 @login_required
 def AddMealByUser(request):
@@ -144,17 +166,17 @@ class AddMealView(CreateView):
 	# Add custom template - use view to name meal then drop down for selecting an already created food?
 
 
-class editabletable(XEditableDatatableView):
-    model = FoodItems
-    template_name = 'tutorial/customtable.html'
-    datatable_options = {
-        'columns': [
-			("Name", 'name', helpers.make_xeditable),
-            ("Serving", 'serving', helpers.make_xeditable),
-            ("Calories", 'calories', helpers.make_xeditable),
-            ("Fat", 'fat', helpers.make_xeditable),
-        ],
-    }
+# class editabletable(XEditableDatatableView):
+#     model = FoodItems
+#     template_name = 'tutorial/customtable.html'
+#     datatable_options = {
+#         'columns': [
+# 			("Name", 'name', helpers.make_xeditable),
+#             ("Serving", 'serving', helpers.make_xeditable),
+#             ("Calories", 'calories', helpers.make_xeditable),
+#             ("Fat", 'fat', helpers.make_xeditable),
+#         ],
+#     }
 
-class ZeroConfigTable(DatatableView):
-	model = FoodItems
+#class ZeroConfigTable(DatatableView):
+#	model = FoodItems

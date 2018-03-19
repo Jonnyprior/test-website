@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
 	'mealtable',
     'tutorial',
-	'datatableview',
     'django_tables2',
     'django.contrib.admin',
     'django.contrib.auth',
