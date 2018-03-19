@@ -16,7 +16,7 @@
 			</tr>
       {% for item in userinfo %}
 			<tr>
-				<td>{{ item.name }}</td>
+				<td><a href="{% url 'EditFoodItemByUser' item.id %}">{{ item.name }}</a></td>
 				<td>{{ item.serving }}</td>
 				<td>{{ item.calories }}</td>
 				<td>{{ item.fat }}</td>
