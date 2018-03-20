@@ -21,3 +21,8 @@ class AddMealByUserForm(forms.ModelForm):
 	def __init__(self, user, *args, **kwargs):
 		super(AddMealByUserForm, self).__init__(*args, **kwargs)
 		self.fields['food_item'].queryset = FoodItems.objects.filter(user=user)
+
+class DeleteFoodItemForm(forms.ModelForm):
+	class Meta:
+		model = FoodItems
+		fields = ['name']

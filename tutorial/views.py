@@ -13,7 +13,7 @@ from django.http import HttpResponseRedirect
 #from datatableview import Datatable, ValuesDatatable, columns, SkipRecord
 #from datatableview.views import DatatableView, XEditableDatatableView
 #from datatableview import helpers
-from .forms import AddFoodItemForm, AddMealByUserForm
+from .forms import AddFoodItemForm, AddMealByUserForm, DeleteFoodItemForm
 
 #from .forms import AddFoodItemForm
 
@@ -21,7 +21,7 @@ from .forms import AddFoodItemForm, AddMealByUserForm
 # Create your views here.
 
 # TODO:
-	# Allow fooditems to be edited, deleted
+	# Allow fooditems to be edited, deleted - DONE
 	# Allow meals to be edited, and deleted
 	# Dynamically add fooditem meal total during meal block creation/editing
 	# Create way of listing meals against a certain day - how best to display this?
@@ -111,6 +111,28 @@ def EditFoodItemByUser(request, pk):
 		form = AddFoodItemForm(instance=user_food_item)
 
 	return render(request, 'tutorial/addfooditem.html', {'form': form})
+
+@login_required
+def DeleteFoodItemByUser(request, pk):
+	"""
+	View function to delete specific fooditem by users
+	"""
+	user_food_item=get_object_or_404(FoodItems, pk=pk)
+	form = DeleteFoodItemForm(request.POST or None, instance=user_food_item)
+	# Forces only linked user to edit page (not very elegant)
+	if not user_food_item.user == request.user:
+		raise ValueError("You do not have permission to delete this - Incorrect user")
+
+	if request.method == 'POST' and form.is_valid():
+		user_food_item.delete()
+		return HttpResponseRedirect(user_food_item.get_absolute_url())
+
+	else:
+		# Populates with current values
+		form = DeleteFoodItemForm(instance=user_food_item)
+
+	return render(request, 'tutorial/delete_food_item_by_user.html',
+		{'form': form})
 
 
 @login_required
