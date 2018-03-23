@@ -151,7 +151,28 @@ def AddMealByUser(request):
 
 	return render(request, 'tutorial/addfooditem.html', {'form': form})
 
+@login_required
+def EditMealItemByUser(request, pk):
+		"""
+		View function to edit specific meals by users
+		"""
+		user_meal_item=get_object_or_404(MealBlock, pk=pk)
+		form = AddMealByUserForm(request.user, request.POST or None, instance=user_meal_item)
+		# Forces only linked user to edit page
+		if not user_meal_item.user == request.user:
+			raise ValueError("You do not have permission to edit this - Incorrect user")
 
+		if request.method == 'POST' and form.is_valid():
+			instance = form.save(commit=False)
+			instance.save()
+			form.save_m2m()
+			return HttpResponseRedirect(user_meal_item.get_absolute_url())
+
+		else:
+			# Populates with current values
+			form = AddMealByUserForm(request.user, instance=user_meal_item)
+
+		return render(request, 'tutorial/addfooditem.html', {'form': form})
 
 def DisplayMeal(request):
 	mealandfooditem = MealBlock.objects.all()

@@ -8,7 +8,7 @@
   <ul>
 
     {% for item in userMealObjects %}
-    <h1>{{ item.meal_name }}</h1>
+    <h1>{{ item.meal_name }}<font size="2"><a href="{% url 'EditMealItemByUser' item.id %}">Edit</a></h1>
     <table bgcolor="#b3d9ff">
 			<tr bgcolor="#3399ff">
 				<th>Food Item</th>
