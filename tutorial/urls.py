@@ -15,4 +15,5 @@ urlpatterns = [
 	path('edit/<int:pk>', views.EditFoodItemByUser, name='EditFoodItemByUser'),
 	path('delete/<int:pk>', views.DeleteFoodItemByUser, name='DeleteFoodItemByUser'),
 	path('edit/meal/<int:pk>', views.EditMealItemByUser, name='EditMealItemByUser'),
+	path('delete/meal/<int:pk>', views.DeleteMealItemByUser, name='DeleteMealItemByUser'),
 ]

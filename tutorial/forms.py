@@ -26,3 +26,8 @@ class DeleteFoodItemForm(forms.ModelForm):
 	class Meta:
 		model = FoodItems
 		fields = ['name']
+
+class DeleteMealItemForm(forms.ModelForm):
+	class Meta:
+		model = MealBlock
+		fields = ['meal_name']

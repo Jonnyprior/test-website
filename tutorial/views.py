@@ -13,7 +13,7 @@ from django.http import HttpResponseRedirect
 #from datatableview import Datatable, ValuesDatatable, columns, SkipRecord
 #from datatableview.views import DatatableView, XEditableDatatableView
 #from datatableview import helpers
-from .forms import AddFoodItemForm, AddMealByUserForm, DeleteFoodItemForm
+from .forms import AddFoodItemForm, AddMealByUserForm, DeleteFoodItemForm, DeleteMealItemForm
 
 #from .forms import AddFoodItemForm
 
@@ -173,6 +173,28 @@ def EditMealItemByUser(request, pk):
 			form = AddMealByUserForm(request.user, instance=user_meal_item)
 
 		return render(request, 'tutorial/addfooditem.html', {'form': form})
+
+@login_required
+def DeleteMealItemByUser(request, pk):
+	"""
+	View function to delete specific meal by users
+	"""
+	user_meal_item=get_object_or_404(MealBlock, pk=pk)
+	form = DeleteMealItemForm(request.POST or None, instance=user_meal_item)
+	# Forces only linked user to edit page (not very elegant)
+	if not user_meal_item.user == request.user:
+		raise ValueError("You do not have permission to delete this - Incorrect user")
+
+	if request.method == 'POST' and form.is_valid():
+		user_meal_item.delete()
+		return HttpResponseRedirect(user_meal_item.get_absolute_url())
+
+	else:
+		# Populates with current values
+		form = DeleteMealItemForm(instance=user_meal_item)
+
+	return render(request, 'tutorial/delete_food_item_by_user.html',
+		{'form': form})
 
 def DisplayMeal(request):
 	mealandfooditem = MealBlock.objects.all()
