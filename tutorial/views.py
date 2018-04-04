@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django_tables2 import RequestConfig
 from .models import FoodItems
-from .models import MealBlock
+from .models import MealBlock, MealSchedulePerDay
 from .tables import FoodItemsTable
 from django.views.generic import CreateView, DetailView, ListView
 from django.db.models import Sum
@@ -22,7 +22,7 @@ from .forms import AddFoodItemForm, AddMealByUserForm, DeleteFoodItemForm, Delet
 
 # TODO:
 	# Allow fooditems to be edited, deleted - DONE
-	# Allow meals to be edited, and deleted
+	# Allow meals to be edited, and deleted - DONE
 	# Dynamically add fooditem meal total during meal block creation/editing
 	# Create way of listing meals against a certain day - how best to display this?
 	# Add 'module' to indicate workout time
@@ -66,12 +66,35 @@ def ViewMealByUser(request):
 	userMealObjects = MealBlock.objects.filter(user=request.user)
 	userMealData = userMealObjects.values('meal_name').annotate(calories=Sum('food_item__calories'), fat=Sum('food_item__fat'), carbs=Sum('food_item__carbs'), protein=Sum('food_item__protein'))
 
+	# Currently just gets total. Need to display each mealblock too?
+	# Works:testobjects = MealSchedulePerDay.objects.filter(user=request.user)
+	# Works:test = testobjects.values('meal_schedule_name').annotate(TotalCal=Sum('meal_block__food_item__calories'))
+
+	#test = MealSchedulePerDay.objects.get_total_nutrition_value() # Not user specific. Need to alter Manager
+	userDayObjects = MealSchedulePerDay.objects.filter(user=request.user)
+	userDayMeals = userDayObjects.values('meal_block').annotate(calories=Sum('meal_block__food_item__calories'), fat=Sum('meal_block__food_item__fat'), carbs=Sum('meal_block__food_item__carbs'), protein=Sum('meal_block__food_item__protein'))
+
 	return render(
 		request,
 		'tutorial/view_meal_by_user.html',
-		context={'userMealObjects': userMealObjects,'userMealData': userMealData},
+		context={'userMealObjects': userMealObjects,'userMealData': userMealData, 'test': userDayMeals},
 	)
 
+@login_required
+def ViewDayMealsByUser(request):
+	userDayObjects = MealSchedulePerDay.objects.filter(user=request.user)
+	#userMealBlockObjects = MealSchedulePerDay.objects.filter(user=request.user, meal_block__meal_name='Monday')
+	#userMealBlockObjects = userDayObjects
+	userDayMeals = userDayObjects.values('meal_block__meal_name').annotate(calories=Sum('meal_block__food_item__calories'), fat=Sum('meal_block__food_item__fat'), carbs=Sum('meal_block__food_item__carbs'), protein=Sum('meal_block__food_item__protein'))
+	userMealBlocks = []
+	for meals in userDayObjects:
+		userMealBlocks = meals.meal_block.all()
+
+	return render(
+		request,
+		'tutorial/view_day_meals_by_user.html',
+		context={'userDayObjects': userDayObjects,'userDayMeals': userDayMeals, 'userMealBlocks':userMealBlocks},
+	)
 
 @login_required
 def AddFoodItemByUser(request):

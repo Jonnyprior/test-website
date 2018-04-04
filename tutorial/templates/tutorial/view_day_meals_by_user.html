@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Meal Block List</h1>
+  <h1>Day - {{ userDayObjects.meal_schedule_name }}</h1>
 
-  {{ userMealObjects }}
-  {{ userMealData }}
-  {% if userMealData %}
+  <p> Query userDayObjects: {{ userDayObjects }}</p>
+  <p> Query userDayMeals: {{ userDayMeals }}</p>
+  <p> Query userMealBlocks: {{ userMealBlocks }}</p>
+
+  {% if userDayMeals %}
   <ul>
 
-    {% for item in userMealObjects %}
-    <h1>{{ item.meal_name }}<font size="2"><a href="{% url 'EditMealItemByUser' item.id %}">Edit</a>
-    <a href="{% url 'DeleteMealItemByUser' item.id %}">Delete</a></h1>
+    {% for item in userMealBlocks %}
     <table bgcolor="#b3d9ff">
 			<tr bgcolor="#3399ff">
 				<th>Food Item</th>
@@ -31,8 +31,8 @@
 			</tr>
       {% endfor %}
 
-      {% for x in userMealData %}
-      {% if item.meal_name == x.meal_name %}
+      {% for x in userDayMeals %}
+      {% if item.meal_name == x.meal_block__meal_name %}
       <tr bgcolor="#80bfff">
 				<td><strong>Total:</strong></td>
 				<td></td>
