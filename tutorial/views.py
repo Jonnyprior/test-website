@@ -86,14 +86,18 @@ def ViewDayMealsByUser(request):
 	#userMealBlockObjects = MealSchedulePerDay.objects.filter(user=request.user, meal_block__meal_name='Monday')
 	#userMealBlockObjects = userDayObjects
 	userDayMeals = userDayObjects.values('meal_block__meal_name').annotate(calories=Sum('meal_block__food_item__calories'), fat=Sum('meal_block__food_item__fat'), carbs=Sum('meal_block__food_item__carbs'), protein=Sum('meal_block__food_item__protein'))
+
+	#DaySum = {}
 	userMealBlocks = []
 	for meals in userDayObjects:
 		userMealBlocks = meals.meal_block.all()
 
+	DaySum = userDayObjects.aggregate(calories=Sum('meal_block__food_item__calories'), fat=Sum('meal_block__food_item__fat'), carbs=Sum('meal_block__food_item__carbs'), protein=Sum('meal_block__food_item__protein'))
+
 	return render(
 		request,
 		'tutorial/view_day_meals_by_user.html',
-		context={'userDayObjects': userDayObjects,'userDayMeals': userDayMeals, 'userMealBlocks':userMealBlocks},
+		context={'userDayObjects': userDayObjects,'userDayMeals': userDayMeals, 'userMealBlocks':userMealBlocks, 'DaySum': DaySum},
 	)
 
 @login_required

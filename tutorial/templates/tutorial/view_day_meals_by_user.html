@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Day - {{ userDayObjects.meal_schedule_name }}</h1>
+  <h1>Day - {{ userDayObjects }}</h1>
 
   <p> Query userDayObjects: {{ userDayObjects }}</p>
   <p> Query userDayMeals: {{ userDayMeals }}</p>
   <p> Query userMealBlocks: {{ userMealBlocks }}</p>
+  <p> Query DaySum: {{ DaySum }}</p>
 
   {% if userDayMeals %}
-  <ul>
+  <div class="row">
+    <div class="column">
+      <ul>
 
     {% for item in userMealBlocks %}
     <table bgcolor="#b3d9ff">
@@ -46,6 +49,21 @@
     </table>
     {% endfor %}
     </ul>
+
+  </div>
+  <div name="column">
+  		<!-- Example row of columns -->
+      {% for x,y in DaySum.items %}
+  		<div class="row">
+  				<p>Day Total for {{ x }}:</p>
+  				<p>{{ y }}</p>
+          <hr>
+  		</div>
+      {% endfor %}
+  </div>
+</div>
+
+
 
 
   {% else %}
